@@ -1,9 +1,11 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {Image} from 'react-native';
 
-import logo from '../assets/logo.png';
+import {useDispatch, useSelector} from 'react-redux';
+import {signInRequest} from '~/store/modules/auth/actions';
+import logo from '~/assets/logo.png';
 
-import Background from '../components/Background';
+import Background from '~/components/Background';
 
 import {
   Container,
@@ -15,9 +17,16 @@ import {
 } from './styles';
 
 export default function SignIn({navigation}) {
+  const dispatch = useDispatch();
   const passwordRef = useRef();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
 
-  function handleSubmit() {}
+  const loading = useSelector(state => state.auth.loading);
+
+  function handleSubmit() {
+    dispatch(signInRequest(email, password));
+  }
 
   return (
     <Background>
@@ -32,6 +41,8 @@ export default function SignIn({navigation}) {
             placeholder="E-mail"
             returnKeyType="next"
             onSubmitEditing={() => passwordRef.current.focus()}
+            value={email}
+            onChangeText={setEmail}
           />
           <FormInput
             icon="lock-outline"
@@ -40,9 +51,13 @@ export default function SignIn({navigation}) {
             ref={passwordRef}
             returnKeyType="send"
             onSubmitEditing={handleSubmit}
+            value={password}
+            onChangeText={setPassword}
           />
 
-          <SubmitButton onPress={() => {}}>Sign In</SubmitButton>
+          <SubmitButton loading={loading} onPress={handleSubmit}>
+            Sign In
+          </SubmitButton>
         </Form>
 
         <SignLink onPress={() => navigation.navigate('SignUp')}>
