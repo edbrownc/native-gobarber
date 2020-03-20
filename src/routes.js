@@ -14,12 +14,13 @@ import SelectDateTime from './pages/New/SelectDateTime';
 import Confirm from './pages/New/Confirm';
 
 const Stack = createStackNavigator();
+const NewStack = createStackNavigator();
 
 const Tabs = createBottomTabNavigator();
 
-function NewStack() {
+function NewStackScreen({navigation}) {
   return (
-    <Stack.Navigator
+    <NewStack.Navigator
       screenOptions={{
         headerTransparent: true,
         headerTintColor: '#FFF',
@@ -27,12 +28,12 @@ function NewStack() {
           marginLeft: 20,
         },
       }}>
-      <Stack.Screen
+      <NewStack.Screen
         name="SelectProvider"
         component={SelectProvider}
         options={{
           title: 'Select provider',
-          headerLeft: ({navigation}) => (
+          headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('Dashboard');
@@ -42,37 +43,37 @@ function NewStack() {
           ),
         }}
       />
-      <Stack.Screen
+      <NewStack.Screen
         name="SelectDateTime"
         component={SelectDateTime}
         options={{
           title: 'Select time',
-          headerLeft: ({navigation}) => (
+          headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
-                navigation.goBack();
+                navigation.navigate('SelectProvider');
               }}>
               <Icon name="chevron-left" size={20} color="#FFF" />
             </TouchableOpacity>
           ),
         }}
       />
-      <Stack.Screen
+      <NewStack.Screen
         name="Confirm"
         component={Confirm}
         options={{
           title: 'Confirm appointment',
           headerLeft: () => (
             <TouchableOpacity
-              onPress={({navigation}) => {
-                navigation.goBack();
+              onPress={() => {
+                navigation.navigate('SelectDateTime');
               }}>
               <Icon name="chevron-left" size={20} color="#FFF" />
             </TouchableOpacity>
           ),
         }}
       />
-    </Stack.Navigator>
+    </NewStack.Navigator>
   );
 }
 
@@ -104,13 +105,14 @@ export default function createRouter(isSigned = false) {
       />
       <Tabs.Screen
         name="New"
-        component={NewStack}
+        component={NewStackScreen}
         options={{
           tabBarVisible: false,
           tabBarLabel: 'Schedule',
           tabBarIcon: ({color}) => (
             <Icon name="add-circle-outline" size={20} color={color} />
           ),
+          unmountOnBlur: true,
         }}
       />
       <Tabs.Screen

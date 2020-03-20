@@ -11,13 +11,13 @@ export default function Dashboard() {
 
   const isFocused = useIsFocused();
 
+  async function loadAppointments() {
+    const response = await api.get('appointments');
+
+    setAppointments(response.data);
+  }
+
   useEffect(() => {
-    async function loadAppointments() {
-      const response = await api.get('appointments');
-
-      setAppointments(response.data);
-    }
-
     if (isFocused) {
       loadAppointments();
     }
