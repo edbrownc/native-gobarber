@@ -14,7 +14,7 @@ export function* signIn({payload}) {
     const {token, user} = response.data;
 
     if (user.provider) {
-      Alert.alert('Sign in error', ['User is a service provider']);
+      Alert.alert('Sign in error', 'User is a service provider');
       return;
     }
 
@@ -24,7 +24,7 @@ export function* signIn({payload}) {
 
     // history.push('/dashboard');
   } catch (error) {
-    Alert.alert('Authentication failed', ['Please check your credentials']);
+    Alert.alert('Authentication failed', 'Please check your credentials');
     yield put(signFailure());
   }
 }
@@ -41,7 +41,7 @@ export function* signUp({payload}) {
 
     // history.push('/');
   } catch (error) {
-    Alert.alert('Failed to register user', ['Please check your credentials']);
+    Alert.alert('Failed to register user', 'Please check your credentials');
     yield put(signFailure());
   }
 }
@@ -54,13 +54,8 @@ export function setToken({payload}) {
   api.defaults.headers.Authorization = `Bearer ${token}`;
 }
 
-export function signOut() {
-  // history.push('/');
-}
-
 export default all([
   takeLatest('persist/REHYDRATE', setToken),
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
   takeLatest('@auth/SIGN_UP_REQUEST', signUp),
-  takeLatest('@auth/SIGN_OUT', signOut),
 ]);
