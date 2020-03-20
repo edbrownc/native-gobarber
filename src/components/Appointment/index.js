@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-
+import PropTypes from 'prop-types';
 import {parseISO, formatRelative} from 'date-fns';
 import en from 'date-fns/locale/en-CA';
 
@@ -40,3 +40,8 @@ export default function Appointment({data, onCancel}) {
     </Container>
   );
 }
+
+Appointment.propTypes = {
+  data: PropTypes.string.isRequired,
+  onCancel: PropTypes.func.isRequired,
+};

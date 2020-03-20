@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-
+import PropTypes from 'prop-types';
 import api from '~/services/api';
 
 import Background from '~/components/Background';
@@ -54,3 +54,12 @@ export default function SelectDateTime({route, navigation}) {
     </Background>
   );
 }
+
+SelectDateTime.propTypes = {
+  route: PropTypes.shape({
+    params: PropTypes.func.isRequired,
+  }).isRequired,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};

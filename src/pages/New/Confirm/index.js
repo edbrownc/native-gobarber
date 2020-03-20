@@ -1,4 +1,5 @@
 import React, {useMemo} from 'react';
+import PropTypes from 'prop-types';
 import {formatRelative, parseISO} from 'date-fns';
 import Background from '~/components/Background';
 
@@ -41,3 +42,11 @@ export default function Confirm({route, navigation}) {
     </Background>
   );
 }
+Confirm.propTypes = {
+  route: PropTypes.shape({
+    params: PropTypes.func.isRequired,
+  }).isRequired,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
